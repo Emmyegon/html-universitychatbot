@@ -1,0 +1,211 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Service Bot</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+    <h1>UNIVERSITY SERVICE BOT</h1>
+    
+    <div id="chat-box"></div>
+
+    <form id="interaction-form">
+        <label for="user-input">Your Message:</label>
+        <input type="text" id="user-input" required>
+        <button type="button" onclick="sendMessage()">Send</button>
+    </form>
+
+    <button type="button" onclick="refreshChat()">Refresh</button>
+
+    <script>
+        // Global variable to store user responses
+        var userDetails = {};
+        var confirmationAction = '';
+
+        // Initial greeting from the bot
+        addToChatBox("Bot: Hi there! I'm your University Service Bot. How can I assist you today?");
+
+        function sendMessage() {
+            var userInput = document.getElementById('user-input').value;
+            addToChatBox('You: ' + userInput);
+
+            // Simulate bot response (replace with actual bot interaction)
+            var botResponse = getBotResponse(userInput);
+            addToChatBox('Bot: ' + botResponse);
+
+            document.getElementById('user-input').value = '';
+        }
+
+        function addToChatBox(message) {
+            var chatBox = document.getElementById('chat-box');
+            var newMessage = document.createElement('p');
+            newMessage.innerHTML = message;
+            chatBox.appendChild(newMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Simulated bot response logic
+        function getBotResponse(userInput) {
+            if (userInput.toLowerCase().includes('hello') || userInput.toLowerCase().includes('hi') || userInput.toLowerCase().includes('hey')) {
+                return 'Hello! How can I assist you today?';
+            } else if (userInput.toLowerCase().includes('password')) {
+                askForStudentDetails('updatePassword');
+                return '';
+            } else if (userInput.toLowerCase().includes('library')) {
+                askForStudentDetails('libraryDetails');
+                return '';
+            } else if (userInput.toLowerCase().includes('appointment')) {
+                askForStudentDetails('appointmentDetails');
+                return '';
+            } else {
+                return 'I did not understand your request. How may I assist you further?';
+            }
+        }
+
+        function askForStudentDetails(action) {
+            addToChatBox('Bot: Enter your name:');
+            createInputField('text', 'name');
+
+            addToChatBox('Bot: Enter your student ID:');
+            createInputField('text', 'studentId');
+
+            if (action === 'libraryDetails') {
+                addToChatBox('Bot: Enter your faculty:');
+                createInputField('text', 'faculty');
+            } else if (action === 'appointmentDetails') {
+                addToChatBox('Bot: Enter your medical number:');
+                createInputField('text', 'medicalNumber');
+
+                addToChatBox('Bot: Enter the date for the appointment (e.g., 2024-01-17):');
+                createInputField('text', 'date');
+            }
+
+            // Confirm button to trigger bot response
+            createConfirmButton(action);
+        }
+
+        // Function to create input fields dynamically
+        function createInputField(type, id) {
+            var inputField = document.createElement('input');
+            inputField.type = type;
+            inputField.id = id;
+            document.getElementById('chat-box').appendChild(inputField);
+        }
+
+        // Function to create a confirm button dynamically
+        function createConfirmButton(action) {
+            var confirmButton = document.createElement('button');
+            confirmButton.innerHTML = 'Confirm';
+            confirmButton.onclick = function() {
+                confirmationAction = action;
+                handleConfirmation();
+            };
+            document.getElementById('chat-box').appendChild(confirmButton);
+        }
+
+        // Function to handle confirmation and trigger bot response
+        function handleConfirmation() {
+            // Get values from input fields
+            var name = document.getElementById('name') ? document.getElementById('name').value : '';
+            var studentId = document.getElementById('studentId') ? document.getElementById('studentId').value : '';
+            var faculty = document.getElementById('faculty') ? document.getElementById('faculty').value : '';
+            var medicalNumber = document.getElementById('medicalNumber') ? document.getElementById('medicalNumber').value : '';
+            var date = document.getElementById('date') ? document.getElementById('date').value : '';
+
+            // Store user details in global variable
+            userDetails = {
+                name: name,
+                studentId: studentId,
+                faculty: faculty,
+                medicalNumber: medicalNumber,
+                date: date
+            };
+
+            // Simulate bot response (replace with actual bot interaction)
+            var botResponse = generateBotResponse(confirmationAction);
+            addToChatBox('Bot: ' + botResponse);
+
+            // Clear input fields
+            clearInputFields();
+        }
+
+        // Function to generate bot response based on user details
+        function generateBotResponse(action) {
+            switch (action) {
+                case 'updatePassword':
+                    return 'Password change successful for\n ' + userDetails.name + ' (Student ID: ' + userDetails.studentId + ').\n How else may I assist you?';
+
+                case 'libraryDetails':
+                    // Simulated library details (replace with actual logic)
+                    var availableBooks = getAvailableBooks(userDetails.faculty);
+                    var booksMessage = availableBooks.length > 0 ? 'Books available for ' + userDetails.faculty + ' faculty: \n'  + availableBooks.join(',\n ') :
+                        'No books available for ' + userDetails.faculty + ' faculty.';
+                    return booksMessage + '\n How else may I assist you?';
+
+                case 'appointmentDetails':
+                    return 'Appointment details confirmed for ' + userDetails.name + ' (Student ID:\n ' + userDetails.studentId +
+                        ', Medical Number:\n ' + userDetails.medicalNumber + ')\n on ' + userDetails.date + '.\n How else may I assist you?';
+
+                default:
+                    return 'I did not understand your request. How else may I assist you?';
+            }
+        }
+
+        // Function to get available books based on faculty (simulated data)
+        function getAvailableBooks(faculty) {
+            // Simulated data (replace with actual logic)
+            if (faculty.toLowerCase() === 'biological and physical science') {
+                return [
+                    'Biology 101\n', 
+                    'Chemistry 201\n',
+                    'Physics 301\n',
+                    'Chemical Engineering: Principles and Practice by Gavin P. Towler and R.K. Sinnott\n',
+                    'Introduction to Chemical Engineering: Tools for Today and Tomorrow by Kenneth A. Solen and John N. Harb\n',
+                    'Chemical Process Safety: Fundamentals with Applications by Daniel A. Crowl and Joseph F. Louvar\n',
+                    'Industrial Chemistry: Chemical Process Design by J. M. Coulson and J. F. Richardson\n',
+                    'The Pragmatic Programmer: Your Journey to Mastery by Dave Thomas and Andy Hunt\n',
+                    'Clean Code: A Handbook of Agile Software Craftsmanship by Robert C. Martin\n',
+                    'Code Complete: A Practical Handbook of Software Construction by Steve McConnell\n',
+                    'Design Patterns: Elements of Reusable Object-Oriented Software by Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides\n',
+                    'Introduction to Algorithms by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein\n',
+                    'The Art of Computer Programming by Donald E. Knuth\n',
+                    'Computer Networks by Andrew S. Tanenbaum and David J. Wetherall\n',
+                    'Artificial Intelligence: A Modern Approach by Stuart Russell and Peter Norvig\n',
+                
+                    'Actuarial Mathematics for Life Contingent Risks by David C. M. Dickson, Mary R. Hardy, and Howard R. Waters\n',
+                    'Probability and Statistics with Applications: A Problem Solving Text by Leonard A. Asimow and Mark M. Maxwell\n',
+                    'Financial Mathematics: A Practical Guide for Actuaries and Other Business Professionals by Chris Ruckman, Richard J. Braun, and Kevin J. McCarty\n',
+                ];
+            } else if (faculty.toLowerCase() === 'education\n') {
+                return [
+                    'Principles of Mathematical Analysis by Walter Rudin\n',
+                    'Abstract Algebra by David S. Dummit and Richard M. Foote\n',
+                    'Topology by James R. Munkres\n',
+                    'Mathematical Logic by Stephen Cole Kleene\n',
+                ];
+            } else {
+                return [];
+            }
+        }
+
+        // Function to clear input fields
+        function clearInputFields() {
+            var inputFields = document.querySelectorAll('#chat-box input');
+            inputFields.forEach(function (input) {
+                input.value = '';
+            });
+        }
+
+        // Function to refresh the chat box
+        function refreshChat() {
+            var chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
+

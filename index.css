@@ -1,0 +1,85 @@
+/* index.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('path/to/your/image.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value to control brightness (0 is transparent, 1 is opaque) */
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    color: #3498db;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#chat-box {
+    position: relative;
+    height: 300px;
+    width: 500px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust the alpha value to control brightness */
+    color: #333333; /* Dark text color for better readability */
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+    text-shadow: 1px 1px 2px #ffffff; /* White text shadow for better contrast */
+}
+
+#refresh-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background-color: #3498db; /* Blue color for the button */
+    color: #fff; /* White text color for the button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+#interaction-form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+label {
+    display: -webkit-inline-box;
+    margin-bottom: 5px;
+    color: #814242; /* Dark gray text color */
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 15px;
+    width: calc(30% - 20px);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+button:hover {
+    background-color: #27ae60; /* Darker green on hover */
+}
+
